@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
   const [token, setToken] = useState([]);
+  let navigate = useNavigate()
 
   useEffect(() => {
     const form = document.getElementsByTagName("form")[0];
@@ -20,11 +22,11 @@ function App() {
       })
         .then(response => response.json())
         .then(result => setToken(result.token))
+        .catch(e => window.alert("Incorrect Password or Username"))
     })
   }, [])
 
-  console.log(token)
-  
+
   return (
     <div>
       <h1>Log in</h1>
@@ -36,6 +38,7 @@ function App() {
         <input type="hidden" name="adminUrl" value={window.location.href} />
         <button type="submit">Submit</button>
       </form>
+      { token.length ? navigate("/create", { state: { currentToken: token } }) : null }
     </div>
   );
 }
