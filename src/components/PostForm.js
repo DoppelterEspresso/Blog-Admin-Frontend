@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router"
 import { useEffect } from "react";
 import NavBar from "./NavBar";
+import { Editor } from "@tinymce/tinymce-react";
 
 const PostForm = () => {
     const location = useLocation();
@@ -19,7 +20,7 @@ const PostForm = () => {
           e.preventDefault();
           let data = {};
           data.title = document.getElementById("title").value
-          data.text = document.getElementById("text").value
+          data.text = document.getElementById("blog-textarea").value
           data.panelUrl = document.getElementById("panelUrl").value
           fetch("http://127.0.0.1:5000/api/posts", {
             method: "POST",
@@ -48,7 +49,7 @@ const PostForm = () => {
               <label htmlFor="title" /> Title:
               <input type="text" required={true} name="title" id="title" />
               <label htmlFor="text" /> Text:
-              <textarea required={true} name="text" id="text"></textarea>
+              <Editor id="blog-textarea" />
               <input type="hidden" name="panelUrl" value={window.location.href} id="panelUrl" />
               <button type="submit">Submit</button>
           </form>

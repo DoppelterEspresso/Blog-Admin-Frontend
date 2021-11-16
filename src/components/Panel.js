@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2 } from "react-html-parser";
 import NavBar from "./NavBar";
 
 const Panel = () => {
@@ -30,7 +31,7 @@ const Panel = () => {
             <Link to={`/posts/${post._id}`} state={{ currentToken: token}}>
                 <div key={post._id}>
                     <h2>{post.title}</h2>
-                    <p>{post.text}</p>
+                    <div>{ ReactHtmlParser(post.text) }</div>
                     <span>Published: {post.published ? "True" : "false"}</span>
                 </div>
             </Link>

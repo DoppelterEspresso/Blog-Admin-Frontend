@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import ReactHtmlParser, {processNodes, convertNodeToElement, htmlparser2 } from "react-html-parser";
 import NavBar from "./NavBar";
 
 const Post = () => {
@@ -84,7 +85,7 @@ const Post = () => {
             <NavBar currentToken={token} />
             <div>
                 <h2>{post.title}</h2>
-                <p>{post.text}</p>
+                <div>{ReactHtmlParser(post.text)}</div>
                 <span>{post.timestamp}</span>
                 <div>
                     <button onClick={postDelete}>DELETE POST</button>
