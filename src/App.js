@@ -38,7 +38,7 @@ function App() {
         <input type="hidden" name="adminUrl" value={window.location.href} />
         <button type="submit">Submit</button>
       </form>
-      { token.length ? navigate("/create", { state: { currentToken: token } }) : null }
+      { token.length ? navigate("/panel", { state: { currentToken: token } }) : null }
     </div>
   );
 }
