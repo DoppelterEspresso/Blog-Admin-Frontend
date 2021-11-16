@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router"
 import { useEffect } from "react";
+import NavBar from "./NavBar";
 
 const PostForm = () => {
     const location = useLocation();
@@ -8,6 +9,7 @@ const PostForm = () => {
     if (location.state === null) {
         navigate("/");
     } else {
+        console.log(location)
         token = location.state.currentToken;
     }
 
@@ -31,24 +33,26 @@ const PostForm = () => {
             .then(result => {
                 console.log(result.message)
                 if (result.message && result.message === "Success") {
-                    navigate("/panel");
+                    window.alert("Post created!");
                 }
             })
             .catch(e => console.log(e))
         })
       }, [])
 
-    console.log(token)
 
     return(
-        <form action="http://127.0.0.1:5000/api/posts" method="POST">
-            <label htmlFor="title" /> Title:
-            <input type="text" required={true} name="title" id="title" />
-            <label htmlFor="text" /> Text:
-            <textarea required={true} name="text" id="text"></textarea>
-            <input type="hidden" name="panelUrl" value={window.location.href} id="panelUrl" />
-            <button type="submit">Submit</button>
-        </form>
+        <div>
+          <NavBar currentToken={token}/>
+          <form action="http://127.0.0.1:5000/api/posts" method="POST">
+              <label htmlFor="title" /> Title:
+              <input type="text" required={true} name="title" id="title" />
+              <label htmlFor="text" /> Text:
+              <textarea required={true} name="text" id="text"></textarea>
+              <input type="hidden" name="panelUrl" value={window.location.href} id="panelUrl" />
+              <button type="submit">Submit</button>
+          </form>
+        </div>
     )
 }
 

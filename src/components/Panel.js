@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import NavBar from "./NavBar";
 
 const Panel = () => {
     const [posts, setPosts] = useState([]);
+    const [token, setToken] = useState([]);
     const location = useLocation();
     let navigate = useNavigate();
-    let token;
-    if (location.state === null) {
+
+    if (location.state === null && !token.length) {
+        console.log("Panel redirects back to login")
         navigate("/");
-    } else {
-        token = location.state.currentToken;
+    } else if (!token.length) {
+        setToken(location.state.currentToken);
     }
 
     useEffect(() => {
@@ -36,6 +39,7 @@ const Panel = () => {
 
     return(
         <div>
+            <NavBar currentToken={token}/>
             {postList}
         </div>
     )

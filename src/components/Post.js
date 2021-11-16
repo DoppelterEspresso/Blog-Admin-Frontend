@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import NavBar from "./NavBar";
 
 const Post = () => {
     const location = useLocation();
@@ -7,13 +8,14 @@ const Post = () => {
     const { postid } = useParams();
     const [post, setPost] = useState([]);
     const [comments, setComments] = useState([]);
+    const [token, setToken] = useState([]);
     const [update, setUpdate] = useState(false);
 
-    let token;
-    if (location.state === null) {
+    if (location.state === null && !token.length) {
+        console.log("Post redirects to login")
         navigate("/");
-    } else {
-        token = location.state.currentToken;
+    } else if (!token.length) {
+        setToken(location.state.currentToken);
     }
 
     useEffect(() => {
@@ -45,6 +47,26 @@ const Post = () => {
         setUpdate(update === false ? true : false);
     }
 
+    const postDelete = () => {
+        fetch(`http://127.0.0.1:5000/api/posts/${postid}`, {
+            method: "DELETE",
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        }).then(response => response.json()).then(result => result.message === "Failure" ? navigate("/") : navigate("/panel", { state: { currentToken: token } })).catch(err => console.log(err))
+        setUpdate(update === false ? true : false)
+    }
+
+    const switchPublish = () => {
+        fetch(`http://127.0.0.1:5000/api/posts/${postid}`, {
+            method: "PUT",
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        }).then(response => response.json()).then(result => result.message === "Failure" ? navigate("/") : navigate("/panel", { state: { currentToken: token } })).catch(err => console.log(err))
+        setUpdate(update === false ? true : false)
+    }
+
     let commentList =  [];
 
     for (let comment of comments) {
@@ -59,10 +81,15 @@ const Post = () => {
 
     return (
         <div>
+            <NavBar currentToken={token} />
             <div>
                 <h2>{post.title}</h2>
                 <p>{post.text}</p>
                 <span>{post.timestamp}</span>
+                <div>
+                    <button onClick={postDelete}>DELETE POST</button>
+                    <button onClick={switchPublish}>{post.published === true ? "UNPUBLISH" : "PUBLISH"}</button>
+                </div>
             </div>
             <hr />
             {commentList}
