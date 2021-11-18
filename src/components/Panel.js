@@ -28,8 +28,8 @@ const Panel = () => {
     
     for (let post of posts) {
         postList.push(
-            <Link to={`/posts/${post._id}`} state={{ currentToken: token}}>
-                <div key={post._id}>
+            <Link to={`/posts/${post._id}`} state={{ currentToken: token}} className="post-link">
+                <div key={post._id} className="post-container">
                     <h2>{post.title}</h2>
                     <div>{ ReactHtmlParser(post.text) }</div>
                     <span>Published: {post.published ? "True" : "false"}</span>
@@ -41,7 +41,11 @@ const Panel = () => {
     return(
         <div>
             <NavBar currentToken={token}/>
-            {postList}
+            <div className="flex-container">
+                <div className="all-posts">
+                    {postList}
+                </div>
+            </div>
         </div>
     )
 }

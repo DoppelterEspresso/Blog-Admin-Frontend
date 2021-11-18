@@ -45,10 +45,10 @@ const PostForm = () => {
     return(
         <div>
           <NavBar currentToken={token}/>
-          <form action="http://127.0.0.1:5000/api/posts" method="POST">
-              <label htmlFor="title" /> Title:
-              <input type="text" required={true} name="title" id="title" />
-              <label htmlFor="text" /> Text:
+          <form action="http://127.0.0.1:5000/api/posts" method="POST" id="post-form">
+              <label htmlFor="title" />
+              <input type="text" required={true} name="title" id="title" placeholder="Post Title" />
+              <label htmlFor="text" />
               <Editor id="blog-textarea" />
               <input type="hidden" name="panelUrl" value={window.location.href} id="panelUrl" />
               <button type="submit">Submit</button>

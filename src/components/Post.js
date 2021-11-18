@@ -72,7 +72,7 @@ const Post = () => {
 
     for (let comment of comments) {
         commentList.push(
-            <div key={comment._id}>
+            <div key={comment._id} className="comment">
                 <h3>{comment.author}</h3>
                 <p>{comment.text}</p>
                 <button onClick={() => commentDelete(comment._id)}>DELETE COMMENT</button>
@@ -83,17 +83,19 @@ const Post = () => {
     return (
         <div>
             <NavBar currentToken={token} />
-            <div>
-                <h2>{post.title}</h2>
-                <div>{ReactHtmlParser(post.text)}</div>
-                <span>{post.timestamp}</span>
-                <div>
-                    <button onClick={postDelete}>DELETE POST</button>
-                    <button onClick={switchPublish}>{post.published === true ? "UNPUBLISH" : "PUBLISH"}</button>
+            <div className="flex-container">
+                <div id="post">
+                    <h2>{post.title}</h2>
+                    <div>{ReactHtmlParser(post.text)}</div>
+                    <span>{post.date_format}</span>
+                    <div>
+                        <button onClick={postDelete}>DELETE POST</button>
+                        <button onClick={switchPublish}>{post.published === true ? "UNPUBLISH" : "PUBLISH"}</button>
+                    </div>
                 </div>
+                <hr />
+                {commentList}
             </div>
-            <hr />
-            {commentList}
         </div>
     )
 }
